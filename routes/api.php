@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CenterOperationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -13,6 +12,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/users-list', 'list');
         Route::post('/user-store', 'store');
         Route::get('/user-logout', 'logout');
+        Route::get('/validate-sesion', 'validateSesion');
     });
     //Center OP
     Route::controller(CenterOperationController::class)->group(function () {
