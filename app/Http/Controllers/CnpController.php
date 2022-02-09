@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Cnp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CnpController extends Controller
 {
@@ -25,7 +27,31 @@ class CnpController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            "product_id"            => "required|exists:products,id",
+            "center_operation_id"   => "required|exists:center_operations,id",
+            "gondola"               => "required",
+            "body_gondola"          => "required",
+            "faces"                 => "required",
+            "level"                 => "required",
+            "depth"                 => "required",
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        if (DB::table('cnps')->insert($request->all())) {
+            return response()->json([
+                "res" => true,
+                "message" => "Registro exitoso"
+            ], 200);
+        } else {
+            return response()->json([
+                "res" => false,
+                "message" => "Error al registrar"
+            ], 400);
+        }
     }
 
     /**
