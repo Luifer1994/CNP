@@ -14,7 +14,12 @@ class CenterOperationController extends Controller
      */
     public function index()
     {
-        //
+        $centerOperation = CenterOperation::all();
+
+        return response()->json([
+            "res"   => true,
+            "data"  => $centerOperation
+        ]);
     }
 
     /**
