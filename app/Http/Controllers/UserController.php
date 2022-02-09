@@ -70,6 +70,7 @@ class UserController extends Controller
             return response()->json([
                 'res' => true,
                 'token' => $user->createToken('CNP')->plainTextToken,
+                'user' => $user,
                 'message' => 'Bienvenido al sistema',
             ], 200);
         } else {
