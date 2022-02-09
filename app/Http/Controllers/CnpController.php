@@ -41,7 +41,15 @@ class CnpController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        if (DB::table('cnps')->insert($request->all())) {
+        $newCnp = new Cnp();
+        $newCnp->product_id             = $request->product_id;
+        $newCnp->center_operation_id    = $request->center_operation_id;
+        $newCnp->gondola                = $request->gondola;
+        $newCnp->body_gondola           = $request->body_gondola;
+        $newCnp->faces                  = $request->faces;
+        $newCnp->level                  = $request->level;
+        $newCnp->depth                  = $request->depth;
+        if ($newCnp->save()) {
             return response()->json([
                 "res" => true,
                 "message" => "Registro exitoso"
