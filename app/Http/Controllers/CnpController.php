@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CnpRequest;
 use App\Models\Cnp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,22 +26,8 @@ class CnpController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CnpRequest $request)
     {
-        $rules = [
-            "product_id"            => "required|exists:products,id",
-            "center_operation_id"   => "required|exists:center_operations,id",
-            "gondola"               => "required",
-            "body_gondola"          => "required",
-            "faces"                 => "required",
-            "level"                 => "required",
-            "depth"                 => "required",
-        ];
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
         $newCnp = new Cnp();
         $newCnp->product_id             = $request->product_id;
         $newCnp->center_operation_id    = $request->center_operation_id;
@@ -49,6 +36,7 @@ class CnpController extends Controller
         $newCnp->faces                  = $request->faces;
         $newCnp->level                  = $request->level;
         $newCnp->depth                  = $request->depth;
+
         if ($newCnp->save()) {
             return response()->json([
                 "res" => true,

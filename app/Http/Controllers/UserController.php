@@ -63,10 +63,8 @@ class UserController extends Controller
         }
         // Obtenemos al usuario a autenticar
         $user = User::where('email', $request->email)->first();
-
         // Vemos si las credenciales son erróneas para retornar un mensaje de error
         if ($user && Hash::check($request->password, $user->password)) {
-            $token = $user->createToken('Laravel')->accessToken;
             return response()->json([
                 'res' => true,
                 'token' => $user->createToken('CNP')->plainTextToken,
