@@ -11,9 +11,14 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    public function list()
+    public function list(Request $request)
     {
-        $users = User::all();
+        $request["limit"] ? $limit = $request["limit"] : $limit = 10;
+        $users = User::select('users.*')
+            ->where('users.id', 'like', '%' . $request["search"] . '%')
+            ->orwhere('users.name', 'like', '%' . $request["search"] . '%')
+            ->orwhere('users.email', 'like', '%' . $request["search"] . '%')
+            ->paginate($limit);
         return response()->json([
             'res' => true,
             'data' => $users
